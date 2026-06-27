@@ -8,16 +8,15 @@ connection = mysql.connector.connect(
     database= "sakila"
 )
 cursor = connection.cursor()
-command_sql = "SELECT first_name, last_name FROM customer WHERE active = %s"
+command_sql = "SELECT first_name, last_name, email FROM customer WHERE active = %s ORDER BY last_name;"
 values = (1,)
 cursor.execute(command_sql,values)
 customers = cursor.fetchall()
-for customer in customers:
-    first_name = customer[0]
-    last_name = customer[1]
+for first_name, last_name, email in customers:
     count_customer += 1
-    message.append(f'{first_name.title()} {last_name.title()}\n')
-message.append(f'\nTotal de clientes: {count_customer}')
+    full_name = first_name + ' ' + last_name
+    message.append(f'{full_name.title()} - {email}\n')
+message.append(f'\nTotal de costumers: {count_customer}')
 
 with open('relatorio_clientes_ativos.txt', 'w', encoding='utf-8') as report:
     report.writelines(message)
