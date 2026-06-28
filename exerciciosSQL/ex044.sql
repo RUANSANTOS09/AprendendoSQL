@@ -1,0 +1,4 @@
+use sakila;
+select customer_id, amount from payment 
+order by amount desc
+limit 2,10
